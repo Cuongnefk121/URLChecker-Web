@@ -1,21 +1,513 @@
-<section id="download" class="section download">
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>URLChecker - Cybersecurity</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        🛡️ URL<span>Checker</span>
+    </div>
+
+
+    <nav>
+
+        <a href="#checker">
+            Kiểm tra
+        </a>
+
+        <a href="#features">
+            Tính năng
+        </a>
+
+        <a href="#how">
+            Hoạt động
+        </a>
+
+        <a href="#download">
+            Cài đặt
+        </a>
+
+    </nav>
+
+</header>
+
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="online">
+            ● SECURITY SYSTEM ONLINE
+        </div>
+
+
+        <h1>
+
+            BẢO VỆ BẠN
+            <br>
+
+            TRƯỚC KHI
+            <br>
+
+            <span>BẠN CLICK.</span>
+
+        </h1>
+
+
+        <p>
+
+            Kiểm tra mức độ an toàn của website
+            trước khi truy cập bằng URLChecker.
+
+        </p>
+
+
+        <a
+            href="#checker"
+            class="main-button"
+        >
+
+            🔍 KIỂM TRA WEBSITE
+
+        </a>
+
+    </div>
+
+
+
+    <div class="shield-box">
+
+        <div class="shield">
+            🛡️
+        </div>
+
+
+        <h3>
+            URLCHECKER
+        </h3>
+
+
+        <p>
+            SECURITY ANALYSIS
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- CHECKER -->
+
+<section
+    id="checker"
+    class="checker"
+>
 
     <div class="title">
 
-        <span>// INSTALLATION</span>
+        <span>
+            // URL SCANNER
+        </span>
+
 
         <h2>
-            CÀI ĐẶT TRÊN MÁY TÍNH
+            KIỂM TRA WEBSITE
         </h2>
 
+
         <p>
-            Làm theo các bước dưới đây để sử dụng URLChecker trên Chrome hoặc Edge.
+            Nhập URL hoặc tên miền bạn muốn kiểm tra.
         </p>
 
     </div>
 
 
+
+    <div class="checker-box">
+
+
+        <div class="input-box">
+
+            <input
+                id="urlInput"
+                type="text"
+                placeholder="https://example.com"
+                autocomplete="off"
+            >
+
+
+            <button id="checkButton">
+
+                🔍 Kiểm tra
+
+            </button>
+
+        </div>
+
+
+
+        <!-- LOADING -->
+
+        <div
+            id="loading"
+            class="loading hidden"
+        >
+
+            <div class="loader"></div>
+
+
+            <h3>
+                ĐANG PHÂN TÍCH...
+            </h3>
+
+
+            <p>
+                Đang kết nối URLChecker Backend
+            </p>
+
+        </div>
+
+
+
+        <!-- RESULT -->
+
+        <div
+            id="result"
+            class="result hidden"
+        >
+
+            <div
+                id="resultIcon"
+                class="result-icon"
+            >
+                ✓
+            </div>
+
+
+            <h3 id="resultTitle">
+                Kết quả
+            </h3>
+
+
+            <p id="resultDomain">
+                example.com
+            </p>
+
+
+            <div class="number">
+
+                <strong id="maliciousCount">
+                    0
+                </strong>
+
+
+                <span>
+                    engine phát hiện nguy hiểm
+                </span>
+
+            </div>
+
+
+            <div
+                id="resultMessage"
+                class="message"
+            >
+            </div>
+
+        </div>
+
+
+
+        <!-- ERROR -->
+
+        <div
+            id="error"
+            class="error hidden"
+        >
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- FEATURES -->
+
+<section
+    id="features"
+    class="section"
+>
+
+    <div class="title">
+
+        <span>
+            // FEATURES
+        </span>
+
+
+        <h2>
+            TÍNH NĂNG
+        </h2>
+
+    </div>
+
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <div class="icon">
+                🔎
+            </div>
+
+
+            <h3>
+                Kiểm tra URL
+            </h3>
+
+
+            <p>
+                Phân tích tên miền trước khi truy cập.
+            </p>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="icon">
+                🦠
+            </div>
+
+
+            <h3>
+                VirusTotal
+            </h3>
+
+
+            <p>
+                Sử dụng dữ liệu phân tích từ VirusTotal.
+            </p>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="icon">
+                ⚠️
+            </div>
+
+
+            <h3>
+                Cảnh báo
+            </h3>
+
+
+            <p>
+                Cảnh báo khi phát hiện nhiều engine nguy hiểm.
+            </p>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <div class="icon">
+                📱
+            </div>
+
+
+            <h3>
+                PC + Mobile
+            </h3>
+
+
+            <p>
+                Một website duy nhất dùng được trên máy tính
+                và điện thoại.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- HOW IT WORKS -->
+
+<section
+    id="how"
+    class="section how"
+>
+
+    <div class="title">
+
+        <span>
+            // HOW IT WORKS
+        </span>
+
+
+        <h2>
+            CÁCH HOẠT ĐỘNG
+        </h2>
+
+    </div>
+
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <b>
+                01
+            </b>
+
+
+            <h3>
+                Nhập URL
+            </h3>
+
+
+            <p>
+                Người dùng nhập website cần kiểm tra.
+            </p>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <b>
+                02
+            </b>
+
+
+            <h3>
+                Gửi Backend
+            </h3>
+
+
+            <p>
+                Website gửi tên miền đến URLChecker Backend.
+            </p>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <b>
+                03
+            </b>
+
+
+            <h3>
+                VirusTotal
+            </h3>
+
+
+            <p>
+                Backend lấy kết quả phân tích.
+            </p>
+
+        </div>
+
+
+
+        <div class="step">
+
+            <b>
+                04
+            </b>
+
+
+            <h3>
+                Kết quả
+            </h3>
+
+
+            <p>
+                URLChecker hiển thị kết quả cho người dùng.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- INSTALLATION -->
+
+<section
+    id="download"
+    class="section download"
+>
+
+    <div class="title">
+
+        <span>
+            // INSTALLATION
+        </span>
+
+
+        <h2>
+            CÀI ĐẶT TRÊN MÁY TÍNH
+        </h2>
+
+
+        <p>
+            Làm theo các bước dưới đây để sử dụng URLChecker
+            trên Chrome hoặc Edge.
+        </p>
+
+    </div>
+
+
+
     <div class="install-box">
+
+
+        <!-- 01 -->
 
         <div class="install-step">
 
@@ -23,26 +515,37 @@
                 01
             </div>
 
+
             <div>
+
                 <h3>
                     Tải URLChecker
                 </h3>
 
+
                 <p>
-                    Tải mã nguồn tiện ích URLChecker về máy tính.
+                    Tải mã nguồn tiện ích URLChecker
+                    về máy tính.
                 </p>
+
 
                 <a
                     href="https://github.com/Cuongnefk121/CyberGuard"
                     target="_blank"
                     class="download-button"
                 >
+
                     ⬇ TẢI TỪ GITHUB
+
                 </a>
+
             </div>
 
         </div>
 
+
+
+        <!-- 02 -->
 
         <div class="install-step">
 
@@ -50,18 +553,26 @@
                 02
             </div>
 
+
             <div>
+
                 <h3>
                     Giải nén file
                 </h3>
 
+
                 <p>
-                    Nếu tải file ZIP, hãy giải nén file vào một thư mục trên máy tính.
+                    Nếu tải file ZIP, hãy giải nén
+                    file vào một thư mục trên máy tính.
                 </p>
+
             </div>
 
         </div>
 
+
+
+        <!-- 03 -->
 
         <div class="install-step">
 
@@ -69,22 +580,28 @@
                 03
             </div>
 
+
             <div>
+
                 <h3>
                     Mở Chrome Extensions
                 </h3>
+
 
                 <p>
                     Trên Chrome, truy cập:
                 </p>
 
+
                 <code>
                     chrome://extensions
                 </code>
 
+
                 <p>
                     Với Edge, truy cập:
                 </p>
+
 
                 <code>
                     edge://extensions
@@ -95,26 +612,41 @@
         </div>
 
 
+
+        <!-- 04 -->
+
         <div class="install-step">
 
             <div class="step-number">
                 04
             </div>
 
+
             <div>
+
                 <h3>
                     Bật Developer Mode
                 </h3>
 
+
                 <p>
+
                     Bật chế độ
-                    <strong>Developer mode</strong>
+                    <strong>
+                        Developer mode
+                    </strong>
+
                     ở góc trên bên phải.
+
                 </p>
+
             </div>
 
         </div>
 
+
+
+        <!-- 05 -->
 
         <div class="install-step">
 
@@ -122,16 +654,25 @@
                 05
             </div>
 
+
             <div>
+
                 <h3>
                     Load unpacked
                 </h3>
 
+
                 <p>
+
                     Chọn
-                    <strong>Load unpacked</strong>
+                    <strong>
+                        Load unpacked
+                    </strong>
+
                     và mở thư mục:
+
                 </p>
+
 
                 <code>
                     CyberGuard/Extension
@@ -142,22 +683,33 @@
         </div>
 
 
+
+        <!-- 06 -->
+
         <div class="install-step">
 
             <div class="step-number">
                 06
             </div>
 
+
             <div>
+
                 <h3>
                     Hoàn tất
                 </h3>
 
+
                 <p>
+
                     URLChecker đã được cài đặt.
-                    Bạn có thể ghim tiện ích lên thanh công cụ
-                    và bắt đầu kiểm tra website.
+
+                    Bạn có thể ghim tiện ích lên
+                    thanh công cụ và bắt đầu
+                    kiểm tra website.
+
                 </p>
+
             </div>
 
         </div>
@@ -165,3 +717,28 @@
     </div>
 
 </section>
+
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div>
+        🛡️ URLChecker
+    </div>
+
+
+    <p>
+        Scan. Detect. Protect.
+    </p>
+
+</footer>
+
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
