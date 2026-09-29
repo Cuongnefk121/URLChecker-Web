@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>URLChecker</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🛡️ URL<span>Checker</span>
+    </div>
+
+    <nav>
+        <a href="#checker">Kiểm tra</a>
+        <a href="#features">Tính năng</a>
+        <a href="#how">Hoạt động</a>
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="online">
+            ● SECURITY SYSTEM ONLINE
+        </div>
+
+        <h1>
+            BẢO VỆ BẠN<br>
+            TRƯỚC KHI<br>
+            <span>BẠN CLICK.</span>
+        </h1>
+
+        <p>
+            Kiểm tra mức độ an toàn của website
+            trước khi truy cập bằng URLChecker.
+        </p>
+
+        <a href="#checker" class="main-button">
+            🔍 KIỂM TRA WEBSITE
+        </a>
+
+    </div>
+
+
+    <div class="shield-box">
+
+        <div class="shield">
+            🛡️
+        </div>
+
+        <h3>
+            URLCHECKER
+        </h3>
+
+        <p>
+            SECURITY ANALYSIS
+        </p>
+
+    </div>
+
+</section>
+
+
+<section id="checker" class="checker">
+
+    <div class="title">
+
+        <span>// URL SCANNER</span>
+
+        <h2>
+            KIỂM TRA WEBSITE
+        </h2>
+
+        <p>
+            Nhập URL hoặc tên miền bạn muốn kiểm tra.
+        </p>
+
+    </div>
+
+
+    <div class="checker-box">
+
+        <div class="input-box">
+
+            <input
+                id="urlInput"
+                type="text"
+                placeholder="https://example.com"
+                autocomplete="off"
+            >
+
+            <button id="checkButton">
+                🔍 Kiểm tra
+            </button>
+
+        </div>
+
+
+        <div id="loading"
+             class="loading hidden">
+
+            <div class="loader"></div>
+
+            <h3>
+                ĐANG PHÂN TÍCH...
+            </h3>
+
+            <p>
+                Đang kết nối URLChecker Backend
+            </p>
+
+        </div>
+
+
+        <div id="result"
+             class="result hidden">
+
+            <div id="resultIcon"
+                 class="result-icon">
+                ✓
+            </div>
+
+            <h3 id="resultTitle">
+                Kết quả
+            </h3>
+
+            <p id="resultDomain">
+                example.com
+            </p>
+
+            <div class="number">
+
+                <strong id="maliciousCount">
+                    0
+                </strong>
+
+                <span>
+                    engine phát hiện nguy hiểm
+                </span>
+
+            </div>
+
+            <div id="resultMessage"
+                 class="message">
+            </div>
+
+        </div>
+
+
+        <div id="error"
+             class="error hidden">
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="features"
+         class="section">
+
+    <div class="title">
+
+        <span>// FEATURES</span>
+
+        <h2>
+            TÍNH NĂNG
+        </h2>
+
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="icon">
+                🔎
+            </div>
+
+            <h3>
+                Kiểm tra URL
+            </h3>
+
+            <p>
+                Phân tích tên miền trước khi truy cập.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                🦠
+            </div>
+
+            <h3>
+                VirusTotal
+            </h3>
+
+            <p>
+                Sử dụng dữ liệu phân tích từ VirusTotal.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                ⚠️
+            </div>
+
+            <h3>
+                Cảnh báo
+            </h3>
+
+            <p>
+                Cảnh báo khi phát hiện nhiều engine nguy hiểm.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                📱
+            </div>
+
+            <h3>
+                PC + Mobile
+            </h3>
+
+            <p>
+                Một website duy nhất dùng được trên máy tính
+                và điện thoại.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="how"
+         class="section how">
+
+    <div class="title">
+
+        <span>// HOW IT WORKS</span>
+
+        <h2>
+            CÁCH HOẠT ĐỘNG
+        </h2>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+
+            <b>01</b>
+
+            <h3>
+                Nhập URL
+            </h3>
+
+            <p>
+                Người dùng nhập website cần kiểm tra.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <b>02</b>
+
+            <h3>
+                Gửi Backend
+            </h3>
+
+            <p>
+                Website gửi tên miền đến URLChecker Backend.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <b>03</b>
+
+            <h3>
+                VirusTotal
+            </h3>
+
+            <p>
+                Backend lấy kết quả phân tích.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <b>04</b>
+
+            <h3>
+                Kết quả
+            </h3>
+
+            <p>
+                URLChecker hiển thị kết quả cho người dùng.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div>
+        🛡️ URLChecker
+    </div>
+
+    <p>
+        Scan. Detect. Protect.
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
