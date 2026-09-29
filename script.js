@@ -7,50 +7,60 @@ const urlInput =
         "urlInput"
     );
 
+
 const checkButton =
     document.getElementById(
         "checkButton"
     );
+
 
 const loading =
     document.getElementById(
         "loading"
     );
 
+
 const result =
     document.getElementById(
         "result"
     );
+
 
 const errorBox =
     document.getElementById(
         "error"
     );
 
+
 const resultIcon =
     document.getElementById(
         "resultIcon"
     );
+
 
 const resultTitle =
     document.getElementById(
         "resultTitle"
     );
 
+
 const resultDomain =
     document.getElementById(
         "resultDomain"
     );
+
 
 const maliciousCount =
     document.getElementById(
         "maliciousCount"
     );
 
+
 const resultMessage =
     document.getElementById(
         "resultMessage"
     );
+
 
 
 function getDomain(value)
@@ -104,23 +114,28 @@ function getDomain(value)
 }
 
 
+
 function startLoading()
 {
     loading.classList.remove(
         "hidden"
     );
 
+
     result.classList.add(
         "hidden"
     );
+
 
     errorBox.classList.add(
         "hidden"
     );
 
+
     checkButton.disabled =
         true;
 }
+
 
 
 function stopLoading()
@@ -129,22 +144,27 @@ function stopLoading()
         "hidden"
     );
 
+
     checkButton.disabled =
         false;
 }
+
 
 
 function showError(message)
 {
     stopLoading();
 
+
     errorBox.innerText =
         "❌ " + message;
+
 
     errorBox.classList.remove(
         "hidden"
     );
 }
+
 
 
 function showResult(
@@ -173,7 +193,9 @@ function showResult(
         malicious;
 
 
-    if (malicious >= 3)
+    if (
+        malicious >= 3
+    )
     {
         result.classList.add(
             "danger"
@@ -210,6 +232,7 @@ function showResult(
             " engine đánh dấu nguy hiểm.";
     }
 }
+
 
 
 async function checkWebsite()
@@ -278,6 +301,7 @@ async function checkWebsite()
         console.log(
             "URLChecker:",
             domain,
+            "malicious =",
             malicious
         );
 
@@ -286,10 +310,12 @@ async function checkWebsite()
             domain,
             malicious
         );
+
     }
     catch (error)
     {
         console.error(
+            "URLChecker ERROR:",
             error
         );
 
@@ -301,10 +327,12 @@ async function checkWebsite()
 }
 
 
+
 checkButton.addEventListener(
     "click",
     checkWebsite
 );
+
 
 
 urlInput.addEventListener(
