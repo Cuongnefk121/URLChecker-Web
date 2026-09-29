@@ -121,16 +121,13 @@ function startLoading()
         "hidden"
     );
 
-
     result.classList.add(
         "hidden"
     );
 
-
     errorBox.classList.add(
         "hidden"
     );
-
 
     checkButton.disabled =
         true;
@@ -144,7 +141,6 @@ function stopLoading()
         "hidden"
     );
 
-
     checkButton.disabled =
         false;
 }
@@ -155,10 +151,8 @@ function showError(message)
 {
     stopLoading();
 
-
     errorBox.innerText =
         "❌ " + message;
-
 
     errorBox.classList.remove(
         "hidden"
@@ -174,11 +168,9 @@ function showResult(
 {
     stopLoading();
 
-
     result.classList.remove(
         "hidden"
     );
-
 
     result.classList.remove(
         "danger"
