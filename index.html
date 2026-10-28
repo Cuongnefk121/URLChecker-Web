@@ -1,692 +1,1139 @@
+```html
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#05080c">
+    <meta name="description" content="CheckYourURL giúp kiểm tra mức độ an toàn của website bằng dữ liệu VirusTotal.">
+    <title>CheckYourURL - Website Security</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <title>URLChecker - Cybersecurity</title>
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
 
-    <link rel="stylesheet" href="style.css">
+        body {
+            background: #05080c;
+            color: #eafff6;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: min(1100px, 90%);
+            margin: auto;
+        }
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 8, 12, .95);
+            border-bottom: 1px solid #143d2f;
+            backdrop-filter: blur(12px);
+        }
+
+        .navbar {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .logo span {
+            color: #00ff9d;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #a3b7ae;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #00ff9d;
+        }
+
+        .menu-button {
+            display: none;
+            padding: 8px 12px;
+            color: #00ff9d;
+            background: transparent;
+            border: 1px solid #245541;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* HERO */
+
+        .hero {
+            padding: 90px 0;
+            min-height: 570px;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: #00ff9d;
+            font-family: monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            border: 1px solid #176341;
+            padding: 7px 12px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: clamp(42px, 6vw, 76px);
+            line-height: 1.04;
+            letter-spacing: -3px;
+        }
+
+        h1 span {
+            color: #00ff9d;
+            text-shadow: 0 0 25px rgba(0, 255, 157, .25);
+        }
+
+        .hero-description {
+            margin-top: 24px;
+            max-width: 520px;
+            color: #93a79e;
+            font-size: 17px;
+        }
+
+        .primary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            margin-top: 28px;
+            padding: 12px 22px;
+            color: #001b10;
+            background: #00ff9d;
+            border: 0;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .primary-button:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 157, .25);
+            transform: translateY(-2px);
+        }
+
+        .shield-panel {
+            min-height: 350px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(
+                circle,
+                rgba(0, 255, 157, .09),
+                transparent 70%
+            );
+            border: 1px solid #164a38;
+            border-radius: 12px;
+        }
+
+        .shield {
+            width: 170px;
+            height: 170px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            border: 1px solid #00ff9d;
+            border-radius: 50%;
+            box-shadow: 0 0 45px rgba(0, 255, 157, .13);
+        }
+
+        .shield-panel h2 {
+            margin-top: 24px;
+            color: #00ff9d;
+            font-size: 23px;
+        }
+
+        .shield-panel p {
+            color: #789188;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        /* GENERAL SECTION */
+
+        section {
+            padding: 85px 0;
+        }
+
+        .section-title {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section-title span {
+            color: #00ff9d;
+            font-family: monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        .section-title h2 {
+            margin: 8px 0;
+            font-size: clamp(28px, 4vw, 42px);
+        }
+
+        .section-title p {
+            color: #81958d;
+        }
+
+        /* SCANNER */
+
+        .scanner-section {
+            background: #070c10;
+            border-top: 1px solid #102b20;
+            border-bottom: 1px solid #102b20;
+        }
+
+        .scanner-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            background: #080e12;
+            border: 1px solid #164a38;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0, 255, 157, .035);
+        }
+
+        .scanner-label {
+            margin-bottom: 12px;
+            color: #a3b7ae;
+            font-size: 14px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        #urlInput {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            height: 52px;
+            padding: 0 15px;
+            color: white;
+            background: #020405;
+            border: 1px solid #28523f;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        #urlInput:focus {
+            border-color: #00ff9d;
+            box-shadow: 0 0 0 3px rgba(0, 255, 157, .08);
+        }
+
+        #urlInput::placeholder {
+            color: #60746b;
+        }
+
+        #checkButton {
+            min-width: 145px;
+            min-height: 52px;
+            padding: 10px 18px;
+            color: #001b10;
+            background: #00ff9d;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #checkButton:disabled {
+            opacity: .55;
+            cursor: wait;
+        }
+
+        .hint {
+            margin-top: 10px;
+            color: #70857b;
+            font-size: 12px;
+        }
+
+        .loading,
+        .result,
+        .error {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #1b4432;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .loading {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            margin: 0 auto 12px;
+            border: 3px solid #173528;
+            border-top-color: #00ff9d;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: #82968d;
+            font-size: 13px;
+        }
+
+        .result {
+            background: #06120c;
+            border-color: #176341;
+        }
+
+        .result.danger {
+            background: #180909;
+            border-color: #a73737;
+        }
+
+        .result h3 {
+            font-size: 21px;
+        }
+
+        .result.danger h3 {
+            color: #ff7373;
+        }
+
+        .result.safe h3 {
+            color: #00ff9d;
+        }
+
+        .result-domain {
+            margin-top: 5px;
+            color: #91a79c;
+            font-family: monospace;
+            overflow-wrap: anywhere;
+        }
+
+        .count {
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        .count strong {
+            color: #00ff9d;
+            font-size: 35px;
+        }
+
+        .danger .count strong {
+            color: #ff7373;
+        }
+
+        .result-message {
+            margin-top: 10px;
+            color: #a9bbb2;
+            font-size: 14px;
+        }
+
+        .error {
+            color: #ff8c8c;
+            background: #180909;
+            border-color: #733030;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* FEATURES */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            padding: 25px;
+            background: #080e12;
+            border: 1px solid #163d2e;
+            border-radius: 10px;
+            transition: .2s;
+        }
+
+        .card:hover {
+            border-color: #00ff9d;
+            transform: translateY(-3px);
+        }
+
+        .card-icon {
+            margin-bottom: 15px;
+            font-size: 32px;
+        }
+
+        .card h3 {
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: #8da198;
+            font-size: 14px;
+        }
+
+        /* HOW IT WORKS */
+
+        .how-section {
+            background: #070c10;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .step {
+            padding: 22px;
+            background: #080e12;
+            border: 1px solid #163d2e;
+            border-radius: 8px;
+        }
+
+        .step-number {
+            color: #00ff9d;
+            font-family: monospace;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .step h3 {
+            margin: 10px 0;
+        }
+
+        .step p {
+            color: #8da198;
+            font-size: 14px;
+        }
+
+        /* INSTALL */
+
+        .install-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 25px;
+            background: #080e12;
+            border: 1px solid #163d2e;
+            border-radius: 10px;
+        }
+
+        .install-box p {
+            color: #a2b5ac;
+            margin-bottom: 10px;
+        }
+
+        .install-box a {
+            color: #00ff9d;
+            overflow-wrap: anywhere;
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 35px 0;
+            background: #030507;
+            border-top: 1px solid #163d2e;
+            text-align: center;
+        }
+
+        footer strong {
+            font-size: 20px;
+        }
+
+        footer strong span {
+            color: #00ff9d;
+        }
+
+        footer p {
+            margin-top: 5px;
+            color: #74887f;
+            font-size: 13px;
+        }
+
+        /* TABLET */
+
+        @media (max-width: 850px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .hero {
+                padding: 65px 0;
+            }
+
+            .shield-panel {
+                min-height: 290px;
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* PHONE */
+
+        @media (max-width: 600px) {
+            .container {
+                width: 92%;
+            }
+
+            .navbar {
+                min-height: 62px;
+            }
+
+            .logo {
+                font-size: 19px;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: 62px;
+                left: 0;
+                right: 0;
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 8px 4%;
+                background: #05080c;
+                border-bottom: 1px solid #164a38;
+            }
+
+            nav.open {
+                display: flex;
+            }
+
+            nav a {
+                padding: 12px;
+                border-bottom: 1px solid #102b20;
+            }
+
+            .hero {
+                padding: 55px 0;
+                min-height: auto;
+            }
+
+            .hero-grid {
+                gap: 30px;
+            }
+
+            h1 {
+                font-size: clamp(39px, 11vw, 55px);
+                letter-spacing: -2px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .shield-panel {
+                min-height: 260px;
+                padding: 20px;
+            }
+
+            .shield {
+                width: 125px;
+                height: 125px;
+                font-size: 60px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                margin-bottom: 28px;
+            }
+
+            .scanner-box {
+                padding: 18px;
+            }
+
+            .input-row {
+                flex-direction: column;
+            }
+
+            #urlInput,
+            #checkButton {
+                width: 100%;
+                min-height: 48px;
+            }
+
+            .cards,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .card,
+            .step {
+                padding: 22px;
+            }
+
+            .install-box {
+                padding: 18px;
+            }
+
+            .result h3 {
+                font-size: 18px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
+    <div class="container navbar">
+        <a class="logo" href="#">🛡️ Check<span>YourURL</span></a>
 
-    <div class="logo">
-        🛡️ URL<span>Checker</span>
+        <button
+            class="menu-button"
+            id="menuButton"
+            aria-label="Mở menu"
+            aria-expanded="false"
+        >☰</button>
+
+        <nav id="navigation">
+            <a href="#scanner">Kiểm tra</a>
+            <a href="#features">Tính năng</a>
+            <a href="#how">Cách hoạt động</a>
+            <a href="#install">Hướng dẫn</a>
+        </nav>
     </div>
-
-    <nav>
-        <a href="#checker">Kiểm tra</a>
-        <a href="#features">Tính năng</a>
-        <a href="#how">Hoạt động</a>
-        <a href="#download">Download</a>
-    </nav>
-
 </header>
 
+<main>
 
-<!-- HERO -->
+    <!-- HERO -->
 
-<section class="hero">
+    <section class="hero">
+        <div class="container hero-grid">
 
-    <div class="hero-content">
+            <div>
+                <div class="eyebrow">● WEBSITE SECURITY SYSTEM</div>
 
-        <div class="online">
-            ● SECURITY SYSTEM ONLINE
-        </div>
+                <h1>
+                    KIỂM TRA<br>
+                    TRƯỚC KHI<br>
+                    <span>BẠN CLICK.</span>
+                </h1>
 
-        <h1>
-            BẢO VỆ BẠN
-            <br>
-            TRƯỚC KHI
-            <br>
-            <span>BẠN CLICK.</span>
-        </h1>
+                <p class="hero-description">
+                    CheckYourURL giúp bạn kiểm tra mức độ an toàn
+                    của website trước khi truy cập, sử dụng dữ liệu
+                    phân tích từ VirusTotal.
+                </p>
 
-        <p>
-            Kiểm tra mức độ an toàn của website
-            trước khi truy cập bằng URLChecker.
-        </p>
-
-        <a
-            href="#checker"
-            class="main-button"
-        >
-            🔍 KIỂM TRA WEBSITE
-        </a>
-
-    </div>
-
-
-    <div class="shield-box">
-
-        <div class="shield">
-            🛡️
-        </div>
-
-        <h3>
-            URLCHECKER
-        </h3>
-
-        <p>
-            SECURITY ANALYSIS
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- CHECKER -->
-
-<section
-    id="checker"
-    class="checker"
->
-
-    <div class="title">
-
-        <span>
-            // URL SCANNER
-        </span>
-
-        <h2>
-            KIỂM TRA WEBSITE
-        </h2>
-
-        <p>
-            Nhập URL hoặc tên miền bạn muốn kiểm tra.
-        </p>
-
-    </div>
-
-
-    <div class="checker-box">
-
-        <div class="input-box">
-
-            <input
-                id="urlInput"
-                type="text"
-                placeholder="https://example.com"
-                autocomplete="off"
-            >
-
-            <button id="checkButton">
-                🔍 Kiểm tra
-            </button>
-
-        </div>
-
-
-        <!-- LOADING -->
-
-        <div
-            id="loading"
-            class="loading hidden"
-        >
-
-            <div class="loader"></div>
-
-            <h3>
-                ĐANG PHÂN TÍCH...
-            </h3>
-
-            <p>
-                Đang kết nối URLChecker Backend
-            </p>
-
-        </div>
-
-
-        <!-- RESULT -->
-
-        <div
-            id="result"
-            class="result hidden"
-        >
-
-            <div
-                id="resultIcon"
-                class="result-icon"
-            >
-                ✓
-            </div>
-
-            <h3 id="resultTitle">
-                Kết quả
-            </h3>
-
-            <p id="resultDomain">
-                example.com
-            </p>
-
-            <div class="number">
-
-                <strong id="maliciousCount">
-                    0
-                </strong>
-
-                <span>
-                    engine phát hiện nguy hiểm
-                </span>
-
-            </div>
-
-            <div
-                id="resultMessage"
-                class="message"
-            >
-            </div>
-
-        </div>
-
-
-        <!-- ERROR -->
-
-        <div
-            id="error"
-            class="error hidden"
-        >
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- FEATURES -->
-
-<section
-    id="features"
-    class="section"
->
-
-    <div class="title">
-
-        <span>
-            // FEATURES
-        </span>
-
-        <h2>
-            TÍNH NĂNG
-        </h2>
-
-    </div>
-
-
-    <div class="cards">
-
-
-        <div class="card">
-
-            <div class="icon">
-                🔎
-            </div>
-
-            <h3>
-                Kiểm tra URL
-            </h3>
-
-            <p>
-                Phân tích tên miền trước khi truy cập.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                🦠
-            </div>
-
-            <h3>
-                VirusTotal
-            </h3>
-
-            <p>
-                Sử dụng dữ liệu phân tích từ VirusTotal.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                ⚠️
-            </div>
-
-            <h3>
-                Cảnh báo
-            </h3>
-
-            <p>
-                Cảnh báo khi phát hiện nhiều engine nguy hiểm.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                📱
-            </div>
-
-            <h3>
-                PC + Mobile
-            </h3>
-
-            <p>
-                Một website duy nhất dùng được trên máy tính
-                và điện thoại.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- HOW IT WORKS -->
-
-<section
-    id="how"
-    class="section how"
->
-
-    <div class="title">
-
-        <span>
-            // HOW IT WORKS
-        </span>
-
-        <h2>
-            CÁCH HOẠT ĐỘNG
-        </h2>
-
-    </div>
-
-
-    <div class="steps">
-
-
-        <div class="step">
-
-            <b>01</b>
-
-            <h3>
-                Nhập URL
-            </h3>
-
-            <p>
-                Người dùng nhập website cần kiểm tra.
-            </p>
-
-        </div>
-
-
-        <div class="step">
-
-            <b>02</b>
-
-            <h3>
-                Gửi Backend
-            </h3>
-
-            <p>
-                Website gửi tên miền đến URLChecker Backend.
-            </p>
-
-        </div>
-
-
-        <div class="step">
-
-            <b>03</b>
-
-            <h3>
-                VirusTotal
-            </h3>
-
-            <p>
-                Backend lấy kết quả phân tích.
-            </p>
-
-        </div>
-
-
-        <div class="step">
-
-            <b>04</b>
-
-            <h3>
-                Kết quả
-            </h3>
-
-            <p>
-                URLChecker hiển thị kết quả cho người dùng.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- DOWNLOAD -->
-
-<section
-    id="download"
-    class="download-section"
->
-
-    <div class="download-container">
-
-
-        <div class="download-icon">
-            ⬇
-        </div>
-
-
-        <div class="download-content">
-
-            <div class="download-label">
-                // DOWNLOAD URLCHECKER
-            </div>
-
-
-            <h2>
-                TẢI URLCHECKER
-            </h2>
-
-
-            <p>
-                Tải tiện ích URLChecker cho máy tính
-                và bảo vệ bạn trước những website nguy hiểm.
-            </p>
-
-
-            <div class="download-buttons">
-
-                <a
-                    href="https://github.com/Cuongnefk121/CyberGuard"
-                    target="_blank"
-                    class="download-main"
-                >
-                    ⬇ TẢI URLCHECKER
+                <a href="#scanner" class="primary-button">
+                    🔍 KIỂM TRA WEBSITE
                 </a>
-
-
-                <a
-                    href="#install"
-                    class="download-guide"
-                >
-                    📖 Hướng dẫn cài đặt
-                </a>
-
             </div>
 
-
-            <div class="download-info">
-
-                <span>
-                    ✓ Chrome
-                </span>
-
-                <span>
-                    ✓ Microsoft Edge
-                </span>
-
-                <span>
-                    ✓ Windows
-                </span>
-
+            <div class="shield-panel">
+                <div class="shield">🛡️</div>
+                <h2>CheckYourURL</h2>
+                <p>SCAN · DETECT · PROTECT</p>
             </div>
 
         </div>
+    </section>
 
-    </div>
+    <!-- SCANNER -->
 
-</section>
+    <section class="scanner-section" id="scanner">
+        <div class="container">
 
-
-
-<!-- INSTALLATION -->
-
-<section
-    id="install"
-    class="section installation"
->
-
-    <div class="title">
-
-        <span>
-            // INSTALLATION
-        </span>
-
-        <h2>
-            HƯỚNG DẪN CÀI ĐẶT
-        </h2>
-
-        <p>
-            Cài đặt URLChecker trên máy tính.
-        </p>
-
-    </div>
-
-
-    <div class="install-box">
-
-
-        <!-- 01 -->
-
-        <div class="install-step">
-
-            <div class="step-number">
-                01
+            <div class="section-title">
+                <span>// URL SCANNER</span>
+                <h2>KIỂM TRA WEBSITE</h2>
+                <p>Nhập đường dẫn website bạn muốn kiểm tra.</p>
             </div>
 
-            <div>
+            <div class="scanner-box">
 
-                <h3>
-                    Tải URLChecker
-                </h3>
+                <label class="scanner-label" for="urlInput">
+                    URL hoặc tên miền
+                </label>
 
-                <p>
-                    Nhấn nút
-                    <strong>
-                        TẢI URLCHECKER
-                    </strong>
-                    ở phía trên.
+                <div class="input-row">
+                    <input
+                        id="urlInput"
+                        type="text"
+                        placeholder="https://example.com"
+                        autocomplete="url"
+                        autocapitalize="none"
+                        spellcheck="false"
+                    >
+
+                    <button id="checkButton" type="button">
+                        🔍 Kiểm tra
+                    </button>
+                </div>
+
+                <p class="hint">
+                    Ví dụ: google.com hoặc https://example.com
                 </p>
 
+                <div id="loading" class="loading hidden" role="status">
+                    <div class="spinner"></div>
+                    <strong>ĐANG PHÂN TÍCH...</strong>
+                    <p>Đang kết nối với CheckYourURL Backend.</p>
+                </div>
+
+                <div id="result" class="result hidden" aria-live="polite">
+                    <h3 id="resultTitle">Kết quả kiểm tra</h3>
+                    <p id="resultDomain" class="result-domain"></p>
+
+                    <div class="count">
+                        <strong id="maliciousCount">0</strong>
+                        <span>engine phát hiện nguy hiểm</span>
+                    </div>
+
+                    <p id="resultMessage" class="result-message"></p>
+                </div>
+
+                <div id="error" class="error hidden" role="alert"></div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+
+    <section id="features">
+        <div class="container">
+
+            <div class="section-title">
+                <span>// FEATURES</span>
+                <h2>TÍNH NĂNG</h2>
+                <p>Các chức năng chính của CheckYourURL.</p>
+            </div>
+
+            <div class="cards">
+
+                <article class="card">
+                    <div class="card-icon">🔎</div>
+                    <h3>Kiểm tra URL</h3>
+                    <p>
+                        Nhập tên miền để xem kết quả phân tích
+                        trước khi quyết định truy cập.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="card-icon">🦠</div>
+                    <h3>VirusTotal</h3>
+                    <p>
+                        Lấy số lượng engine đánh dấu nguy hiểm
+                        từ backend tích hợp VirusTotal.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Cảnh báo rủi ro</h3>
+                    <p>
+                        Hiển thị cảnh báo khi số engine phát hiện
+                        nguy hiểm đạt ngưỡng đã thiết lập.
+                    </p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+
+    <section class="how-section" id="how">
+        <div class="container">
+
+            <div class="section-title">
+                <span>// HOW IT WORKS</span>
+                <h2>CÁCH HOẠT ĐỘNG</h2>
+            </div>
+
+            <div class="steps">
+
+                <article class="step">
+                    <div class="step-number">01</div>
+                    <h3>Nhập URL</h3>
+                    <p>Nhập website muốn kiểm tra.</p>
+                </article>
+
+                <article class="step">
+                    <div class="step-number">02</div>
+                    <h3>Gửi yêu cầu</h3>
+                    <p>Website gửi tên miền đến backend.</p>
+                </article>
+
+                <article class="step">
+                    <div class="step-number">03</div>
+                    <h3>Phân tích</h3>
+                    <p>Backend truy vấn dữ liệu VirusTotal.</p>
+                </article>
+
+                <article class="step">
+                    <div class="step-number">04</div>
+                    <h3>Hiển thị kết quả</h3>
+                    <p>Người dùng xem kết quả và cân nhắc rủi ro.</p>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INSTALLATION -->
+
+    <section id="install">
+        <div class="container">
+
+            <div class="section-title">
+                <span>// ABOUT</span>
+                <h2>VỀ CHECKYOURURL</h2>
+            </div>
+
+            <div class="install-box">
+                <p>
+                    CheckYourURL là dự án hỗ trợ người dùng nhận biết
+                    rủi ro khi truy cập website.
+                </p>
+
+                <p>
+                    Kết quả tự động không thể bảo đảm một website
+                    an toàn tuyệt đối. Số engine phát hiện có thể thay
+                    đổi theo thời gian và nguồn dữ liệu.
+                </p>
+
+                <p>
+                    <a href="https://www.virustotal.com/" target="_blank"
+                       rel="noopener noreferrer">
+                        Tìm hiểu về VirusTotal ↗
+                    </a>
+                </p>
             </div>
 
         </div>
+    </section>
 
-
-        <!-- 02 -->
-
-        <div class="install-step">
-
-            <div class="step-number">
-                02
-            </div>
-
-            <div>
-
-                <h3>
-                    Mở thư mục Extension
-                </h3>
-
-                <p>
-                    Trong repository, mở:
-                </p>
-
-                <code>
-                    CyberGuard/Extension
-                </code>
-
-            </div>
-
-        </div>
-
-
-        <!-- 03 -->
-
-        <div class="install-step">
-
-            <div class="step-number">
-                03
-            </div>
-
-            <div>
-
-                <h3>
-                    Mở Chrome Extensions
-                </h3>
-
-                <p>
-                    Trên Chrome truy cập:
-                </p>
-
-                <code>
-                    chrome://extensions
-                </code>
-
-                <p>
-                    Hoặc Edge:
-                </p>
-
-                <code>
-                    edge://extensions
-                </code>
-
-            </div>
-
-        </div>
-
-
-        <!-- 04 -->
-
-        <div class="install-step">
-
-            <div class="step-number">
-                04
-            </div>
-
-            <div>
-
-                <h3>
-                    Bật Developer Mode
-                </h3>
-
-                <p>
-                    Bật
-                    <strong>
-                        Developer mode
-                    </strong>
-                    ở góc trên bên phải.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- 05 -->
-
-        <div class="install-step">
-
-            <div class="step-number">
-                05
-            </div>
-
-            <div>
-
-                <h3>
-                    Load unpacked
-                </h3>
-
-                <p>
-                    Chọn
-                    <strong>
-                        Load unpacked
-                    </strong>
-                    rồi chọn:
-                </p>
-
-                <code>
-                    CyberGuard/Extension
-                </code>
-
-            </div>
-
-        </div>
-
-
-        <!-- 06 -->
-
-        <div class="install-step">
-
-            <div class="step-number">
-                06
-            </div>
-
-            <div>
-
-                <h3>
-                    Hoàn tất
-                </h3>
-
-                <p>
-                    URLChecker đã được cài đặt
-                    và sẵn sàng sử dụng.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- FOOTER -->
+</main>
 
 <footer>
-
-    <div>
-        🛡️ URLChecker
+    <div class="container">
+        <strong>🛡️ Check<span style="color:#00ff9d">YourURL</span></strong>
+        <p>Scan. Detect. Protect.</p>
+        <p>© 2026 CheckYourURL</p>
     </div>
-
-    <p>
-        Scan. Detect. Protect.
-    </p>
-
 </footer>
 
+<script>
+    /*
+        BACKEND
+        Giữ nguyên backend Render hiện tại của bạn.
+    */
 
-<script src="script.js"></script>
+    const BACKEND =
+        "https://cyberguard-jx83.onrender.com/scan?domain=";
+
+    const urlInput =
+        document.getElementById("urlInput");
+
+    const checkButton =
+        document.getElementById("checkButton");
+
+    const loading =
+        document.getElementById("loading");
+
+    const result =
+        document.getElementById("result");
+
+    const errorBox =
+        document.getElementById("error");
+
+    const resultTitle =
+        document.getElementById("resultTitle");
+
+    const resultDomain =
+        document.getElementById("resultDomain");
+
+    const maliciousCount =
+        document.getElementById("maliciousCount");
+
+    const resultMessage =
+        document.getElementById("resultMessage");
+
+
+    /* MOBILE MENU */
+
+    const menuButton =
+        document.getElementById("menuButton");
+
+    const navigation =
+        document.getElementById("navigation");
+
+    menuButton.addEventListener("click", function () {
+        const isOpen =
+            navigation.classList.toggle("open");
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+        );
+
+        menuButton.innerText =
+            isOpen ? "✕" : "☰";
+    });
+
+    navigation.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            navigation.classList.remove("open");
+            menuButton.setAttribute("aria-expanded", "false");
+            menuButton.innerText = "☰";
+        });
+    });
+
+
+    /* GET DOMAIN */
+
+    function getDomain(value) {
+        value = value.trim();
+
+        if (!value) {
+            return "";
+        }
+
+        try {
+            if (
+                !value.startsWith("http://") &&
+                !value.startsWith("https://")
+            ) {
+                value = "https://" + value;
+            }
+
+            const parsed = new URL(value);
+
+            if (
+                parsed.protocol !== "http:" &&
+                parsed.protocol !== "https:"
+            ) {
+                return "";
+            }
+
+            const hostname = parsed.hostname;
+
+            if (
+                !hostname ||
+                !hostname.includes(".") ||
+                hostname.includes(" ")
+            ) {
+                return "";
+            }
+
+            return hostname.replace(/^www\./i, "");
+        }
+        catch (e) {
+            return "";
+        }
+    }
+
+
+    /* DISPLAY STATES */
+
+    function startLoading() {
+        loading.classList.remove("hidden");
+        result.classList.add("hidden");
+        errorBox.classList.add("hidden");
+        checkButton.disabled = true;
+        checkButton.innerText = "Đang kiểm tra...";
+    }
+
+    function stopLoading() {
+        loading.classList.add("hidden");
+        checkButton.disabled = false;
+        checkButton.innerText = "🔍 Kiểm tra";
+    }
+
+    function showError(message) {
+        stopLoading();
+
+        errorBox.innerText = "❌ " + message;
+        errorBox.classList.remove("hidden");
+    }
+
+    function showResult(domain, malicious) {
+        stopLoading();
+
+        result.classList.remove("hidden", "danger", "safe");
+
+        resultDomain.innerText = domain;
+        maliciousCount.innerText = malicious;
+
+        if (malicious >= 3) {
+            result.classList.add("danger");
+
+            resultTitle.innerText =
+                "⚠️ WEBSITE CÓ NGUY CƠ";
+
+            resultMessage.innerText =
+                "VirusTotal ghi nhận " + malicious +
+                " engine đánh dấu tên miền này là nguy hiểm. " +
+                "Hãy thận trọng và kiểm tra thêm thông tin.";
+        }
+        else {
+            result.classList.add("safe");
+
+            resultTitle.innerText =
+                "CHƯA PHÁT HIỆN NHIỀU DẤU HIỆU NGUY HIỂM";
+
+            resultMessage.innerText =
+                "VirusTotal hiện ghi nhận " + malicious +
+                " engine đánh dấu nguy hiểm. Kết quả này không " +
+                "bảo đảm website an toàn tuyệt đối.";
+        }
+    }
+
+
+    /* SCAN WEBSITE */
+
+    async function checkWebsite() {
+        const domain =
+            getDomain(urlInput.value);
+
+        if (!domain) {
+            showError("URL không hợp lệ. Hãy nhập tên miền, ví dụ google.com.");
+            return;
+        }
+
+        startLoading();
+
+        try {
+            const response = await fetch(
+                BACKEND + encodeURIComponent(domain)
+            );
+
+            if (!response.ok) {
+                throw new Error("HTTP " + response.status);
+            }
+
+            const data = await response.json();
+
+            const malicious =
+                Number(data.malicious);
+
+            if (
+                !Number.isFinite(malicious) ||
+                malicious < 0
+            ) {
+                throw new Error("Dữ liệu trả về không hợp lệ.");
+            }
+
+            showResult(domain, malicious);
+        }
+        catch (error) {
+            console.error("CheckYourURL error:", error);
+
+            showError(
+                "Không thể kết nối backend. Hãy thử lại sau."
+            );
+        }
+    }
+
+    checkButton.addEventListener(
+        "click",
+        checkWebsite
+    );
+
+    urlInput.addEventListener(
+        "keydown",
+        function (event) {
+            if (event.key === "Enter") {
+                checkWebsite();
+            }
+        }
+    );
+</script>
 
 </body>
-
 </html>
+```
