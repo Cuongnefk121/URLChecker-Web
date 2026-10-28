@@ -1,672 +1,809 @@
-```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#05080c">
-    <meta name="description" content="CheckYourURL giúp kiểm tra mức độ an toàn của website bằng dữ liệu VirusTotal.">
-    <title>CheckYourURL - Website Security</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px;
-        }
-
-        body {
-            background: #05080c;
-            color: #eafff6;
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        button, input {
-            font: inherit;
-        }
-
-        button {
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .container {
-            width: min(1100px, 90%);
-            margin: auto;
-        }
-
-        /* HEADER */
-
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(5, 8, 12, .95);
-            border-bottom: 1px solid #143d2f;
-            backdrop-filter: blur(12px);
-        }
-
-        .navbar {
-            min-height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .logo span {
-            color: #00ff9d;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        nav a {
-            color: #a3b7ae;
-            font-size: 14px;
-            text-decoration: none;
-        }
-
-        nav a:hover {
-            color: #00ff9d;
-        }
-
-        .menu-button {
-            display: none;
-            padding: 8px 12px;
-            color: #00ff9d;
-            background: transparent;
-            border: 1px solid #245541;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        /* HERO */
-
-        .hero {
-            padding: 90px 0;
-            min-height: 570px;
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.3fr 1fr;
-            align-items: center;
-            gap: 50px;
-        }
-
-        .eyebrow {
-            display: inline-block;
-            color: #00ff9d;
-            font-family: monospace;
-            font-size: 12px;
-            letter-spacing: 2px;
-            border: 1px solid #176341;
-            padding: 7px 12px;
-            margin-bottom: 24px;
-        }
-
-        h1 {
-            font-size: clamp(42px, 6vw, 76px);
-            line-height: 1.04;
-            letter-spacing: -3px;
-        }
-
-        h1 span {
-            color: #00ff9d;
-            text-shadow: 0 0 25px rgba(0, 255, 157, .25);
-        }
-
-        .hero-description {
-            margin-top: 24px;
-            max-width: 520px;
-            color: #93a79e;
-            font-size: 17px;
-        }
-
-        .primary-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 48px;
-            margin-top: 28px;
-            padding: 12px 22px;
-            color: #001b10;
-            background: #00ff9d;
-            border: 0;
-            border-radius: 6px;
-            font-weight: bold;
-            text-decoration: none;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .primary-button:hover {
-            box-shadow: 0 0 25px rgba(0, 255, 157, .25);
-            transform: translateY(-2px);
-        }
-
-        .shield-panel {
-            min-height: 350px;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(
-                circle,
-                rgba(0, 255, 157, .09),
-                transparent 70%
-            );
-            border: 1px solid #164a38;
-            border-radius: 12px;
-        }
-
-        .shield {
-            width: 170px;
-            height: 170px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
-            border: 1px solid #00ff9d;
-            border-radius: 50%;
-            box-shadow: 0 0 45px rgba(0, 255, 157, .13);
-        }
-
-        .shield-panel h2 {
-            margin-top: 24px;
-            color: #00ff9d;
-            font-size: 23px;
-        }
-
-        .shield-panel p {
-            color: #789188;
-            font-family: monospace;
-            font-size: 12px;
-        }
-
-        /* GENERAL SECTION */
-
-        section {
-            padding: 85px 0;
-        }
-
-        .section-title {
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .section-title span {
-            color: #00ff9d;
-            font-family: monospace;
-            font-size: 12px;
-            letter-spacing: 2px;
-        }
-
-        .section-title h2 {
-            margin: 8px 0;
-            font-size: clamp(28px, 4vw, 42px);
-        }
-
-        .section-title p {
-            color: #81958d;
-        }
-
-        /* SCANNER */
-
-        .scanner-section {
-            background: #070c10;
-            border-top: 1px solid #102b20;
-            border-bottom: 1px solid #102b20;
-        }
-
-        .scanner-box {
-            max-width: 800px;
-            margin: auto;
-            padding: 30px;
-            background: #080e12;
-            border: 1px solid #164a38;
-            border-radius: 12px;
-            box-shadow: 0 0 40px rgba(0, 255, 157, .035);
-        }
-
-        .scanner-label {
-            margin-bottom: 12px;
-            color: #a3b7ae;
-            font-size: 14px;
-        }
-
-        .input-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        #urlInput {
-            flex: 1;
-            width: 100%;
-            min-width: 0;
-            height: 52px;
-            padding: 0 15px;
-            color: white;
-            background: #020405;
-            border: 1px solid #28523f;
-            border-radius: 6px;
-            outline: none;
-        }
-
-        #urlInput:focus {
-            border-color: #00ff9d;
-            box-shadow: 0 0 0 3px rgba(0, 255, 157, .08);
-        }
-
-        #urlInput::placeholder {
-            color: #60746b;
-        }
-
-        #checkButton {
-            min-width: 145px;
-            min-height: 52px;
-            padding: 10px 18px;
-            color: #001b10;
-            background: #00ff9d;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        #checkButton:disabled {
-            opacity: .55;
-            cursor: wait;
-        }
-
-        .hint {
-            margin-top: 10px;
-            color: #70857b;
-            font-size: 12px;
-        }
-
-        .loading,
-        .result,
-        .error {
-            margin-top: 20px;
-            padding: 20px;
-            border: 1px solid #1b4432;
-            border-radius: 8px;
-            overflow-wrap: anywhere;
-        }
-
-        .loading {
-            text-align: center;
-        }
-
-        .spinner {
-            width: 36px;
-            height: 36px;
-            margin: 0 auto 12px;
-            border: 3px solid #173528;
-            border-top-color: #00ff9d;
-            border-radius: 50%;
-            animation: spin .8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading p {
-            color: #82968d;
-            font-size: 13px;
-        }
-
-        .result {
-            background: #06120c;
-            border-color: #176341;
-        }
-
-        .result.danger {
-            background: #180909;
-            border-color: #a73737;
-        }
-
-        .result h3 {
-            font-size: 21px;
-        }
-
-        .result.danger h3 {
-            color: #ff7373;
-        }
-
-        .result.safe h3 {
-            color: #00ff9d;
-        }
-
-        .result-domain {
-            margin-top: 5px;
-            color: #91a79c;
-            font-family: monospace;
-            overflow-wrap: anywhere;
-        }
-
-        .count {
-            margin-top: 15px;
-            font-size: 15px;
-        }
-
-        .count strong {
-            color: #00ff9d;
-            font-size: 35px;
-        }
-
-        .danger .count strong {
-            color: #ff7373;
-        }
-
-        .result-message {
-            margin-top: 10px;
-            color: #a9bbb2;
-            font-size: 14px;
-        }
-
-        .error {
-            color: #ff8c8c;
-            background: #180909;
-            border-color: #733030;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* FEATURES */
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-        }
-
-        .card {
-            padding: 25px;
-            background: #080e12;
-            border: 1px solid #163d2e;
-            border-radius: 10px;
-            transition: .2s;
-        }
-
-        .card:hover {
-            border-color: #00ff9d;
-            transform: translateY(-3px);
-        }
-
-        .card-icon {
-            margin-bottom: 15px;
-            font-size: 32px;
-        }
-
-        .card h3 {
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            color: #8da198;
-            font-size: 14px;
-        }
-
-        /* HOW IT WORKS */
-
-        .how-section {
-            background: #070c10;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .step {
-            padding: 22px;
-            background: #080e12;
-            border: 1px solid #163d2e;
-            border-radius: 8px;
-        }
-
-        .step-number {
-            color: #00ff9d;
-            font-family: monospace;
-            font-size: 30px;
-            font-weight: bold;
-        }
-
-        .step h3 {
-            margin: 10px 0;
-        }
-
-        .step p {
-            color: #8da198;
-            font-size: 14px;
-        }
-
-        /* INSTALL */
-
-        .install-box {
-            max-width: 800px;
-            margin: auto;
-            padding: 25px;
-            background: #080e12;
-            border: 1px solid #163d2e;
-            border-radius: 10px;
-        }
-
-        .install-box p {
-            color: #a2b5ac;
-            margin-bottom: 10px;
-        }
-
-        .install-box a {
-            color: #00ff9d;
-            overflow-wrap: anywhere;
-        }
-
-        /* FOOTER */
-
-        footer {
-            padding: 35px 0;
-            background: #030507;
-            border-top: 1px solid #163d2e;
-            text-align: center;
-        }
-
-        footer strong {
-            font-size: 20px;
-        }
-
-        footer strong span {
-            color: #00ff9d;
-        }
-
-        footer p {
-            margin-top: 5px;
-            color: #74887f;
-            font-size: 13px;
-        }
-
-        /* TABLET */
-
-        @media (max-width: 850px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 35px;
-            }
-
-            .hero {
-                padding: 65px 0;
-            }
-
-            .shield-panel {
-                min-height: 290px;
-            }
-
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .steps {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* PHONE */
-
-        @media (max-width: 600px) {
-            .container {
-                width: 92%;
-            }
-
-            .navbar {
-                min-height: 62px;
-            }
-
-            .logo {
-                font-size: 19px;
-            }
-
-            .menu-button {
-                display: block;
-            }
-
-            nav {
-                position: absolute;
-                top: 62px;
-                left: 0;
-                right: 0;
-                display: none;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0;
-                padding: 8px 4%;
-                background: #05080c;
-                border-bottom: 1px solid #164a38;
-            }
-
-            nav.open {
-                display: flex;
-            }
-
-            nav a {
-                padding: 12px;
-                border-bottom: 1px solid #102b20;
-            }
-
-            .hero {
-                padding: 55px 0;
-                min-height: auto;
-            }
-
-            .hero-grid {
-                gap: 30px;
-            }
-
-            h1 {
-                font-size: clamp(39px, 11vw, 55px);
-                letter-spacing: -2px;
-            }
-
-            .hero-description {
-                font-size: 15px;
-            }
-
-            .shield-panel {
-                min-height: 260px;
-                padding: 20px;
-            }
-
-            .shield {
-                width: 125px;
-                height: 125px;
-                font-size: 60px;
-            }
-
-            section {
-                padding: 60px 0;
-            }
-
-            .section-title {
-                margin-bottom: 28px;
-            }
-
-            .scanner-box {
-                padding: 18px;
-            }
-
-            .input-row {
-                flex-direction: column;
-            }
-
-            #urlInput,
-            #checkButton {
-                width: 100%;
-                min-height: 48px;
-            }
-
-            .cards,
-            .steps {
-                grid-template-columns: 1fr;
-            }
-
-            .card,
-            .step {
-                padding: 22px;
-            }
-
-            .install-box {
-                padding: 18px;
-            }
-
-            .result h3 {
-                font-size: 18px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                scroll-behavior: auto !important;
-                animation-duration: .01ms !important;
-                transition-duration: .01ms !important;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05080c">
+<meta name="description" content="CheckYourURL - Kiểm tra mức độ an toàn của website.">
+<title>CheckYourURL - Website Security</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+body {
+    background: #05080c;
+    color: #eafff6;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0,255,157,.025) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(0,255,157,.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button, input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* HEADER */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5,8,12,.96);
+    border-bottom: 1px solid #143d2f;
+    backdrop-filter: blur(12px);
+}
+
+.navbar {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: #00ff9d;
+}
+
+nav {
+    display: flex;
+    gap: 24px;
+}
+
+nav a {
+    color: #9bb1a8;
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: #00ff9d;
+}
+
+.menu-button {
+    display: none;
+    padding: 7px 12px;
+    background: transparent;
+    border: 1px solid #245541;
+    color: #00ff9d;
+    border-radius: 5px;
+}
+
+/* HERO */
+
+.hero {
+    padding: 90px 0;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    gap: 50px;
+}
+
+.eyebrow {
+    display: inline-block;
+    margin-bottom: 24px;
+    padding: 7px 12px;
+    border: 1px solid #176341;
+    color: #00ff9d;
+    font-family: monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+h1 {
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -3px;
+}
+
+h1 span {
+    color: #00ff9d;
+    text-shadow: 0 0 25px rgba(0,255,157,.25);
+}
+
+.hero-description {
+    margin-top: 24px;
+    color: #93a79e;
+    font-size: 17px;
+}
+
+.primary-button {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 13px 23px;
+    background: #00ff9d;
+    color: #001b10;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: .2s;
+}
+
+.primary-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 25px rgba(0,255,157,.25);
+}
+
+.shield-panel {
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,255,157,.025);
+    border: 1px solid #164a38;
+    border-radius: 10px;
+}
+
+.shield {
+    width: 170px;
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #00ff9d;
+    border-radius: 50%;
+    font-size: 75px;
+    box-shadow: 0 0 45px rgba(0,255,157,.15);
+}
+
+.shield-panel h2 {
+    margin-top: 25px;
+    color: #00ff9d;
+}
+
+.shield-panel p {
+    color: #71877d;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+/* SECTIONS */
+
+section {
+    padding: 85px 0;
+}
+
+.section-title {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.section-title span {
+    color: #00ff9d;
+    font-family: monospace;
+    letter-spacing: 2px;
+    font-size: 12px;
+}
+
+.section-title h2 {
+    margin: 8px 0;
+    font-size: clamp(28px,4vw,42px);
+}
+
+.section-title p {
+    color: #81958d;
+}
+
+/* SCANNER */
+
+.scanner-section,
+.how-section {
+    background: #070c10;
+    border-top: 1px solid #102b20;
+    border-bottom: 1px solid #102b20;
+}
+
+.scanner-box {
+    max-width: 800px;
+    margin: auto;
+    padding: 30px;
+    background: #080e12;
+    border: 1px solid #164a38;
+    border-radius: 10px;
+}
+
+.scanner-label {
+    display: block;
+    margin-bottom: 12px;
+    color: #a3b7ae;
+    font-size: 14px;
+}
+
+.input-row {
+    display: flex;
+    gap: 10px;
+}
+
+#urlInput {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    height: 52px;
+    padding: 0 15px;
+    background: #020405;
+    color: white;
+    border: 1px solid #28523f;
+    border-radius: 5px;
+    outline: none;
+}
+
+#urlInput:focus {
+    border-color: #00ff9d;
+}
+
+#urlInput::placeholder {
+    color: #60746b;
+}
+
+#checkButton {
+    min-width: 140px;
+    padding: 10px 18px;
+    background: #00ff9d;
+    color: #001b10;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#checkButton:disabled {
+    opacity: .55;
+    cursor: wait;
+}
+
+.hint {
+    margin-top: 10px;
+    color: #70857b;
+    font-size: 12px;
+}
+
+.hint a {
+    color: #00ff9d;
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+}
+
+.hint a:hover {
+    color: #ffffff;
+}
+
+.loading, .result, .error {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #1b4432;
+    border-radius: 7px;
+    overflow-wrap: anywhere;
+}
+
+.loading {
+    text-align: center;
+}
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 12px;
+    border: 3px solid #173528;
+    border-top-color: #00ff9d;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading p {
+    color: #82968d;
+    font-size: 13px;
+}
+
+.result {
+    background: #06120c;
+    border-color: #176341;
+}
+
+.result.safe h3 {
+    color: #00ff9d;
+}
+
+.result.danger {
+    background: #180909;
+    border-color: #a73737;
+}
+
+.result.danger h3 {
+    color: #ff7373;
+}
+
+.result-domain {
+    margin-top: 5px;
+    color: #91a79c;
+    font-family: monospace;
+    overflow-wrap: anywhere;
+}
+
+.count {
+    margin-top: 15px;
+}
+
+.count strong {
+    color: #00ff9d;
+    font-size: 35px;
+}
+
+.danger .count strong {
+    color: #ff7373;
+}
+
+.result-message {
+    margin-top: 10px;
+    color: #a9bbb2;
+    font-size: 14px;
+}
+
+.error {
+    background: #180909;
+    color: #ff8c8c;
+    border-color: #733030;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* FEATURES */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 20px;
+}
+
+.card {
+    min-height: 200px;
+    padding: 28px;
+    background: #080e12;
+    border: 1px solid #163d2e;
+    border-radius: 8px;
+    transition: .2s;
+}
+
+.card:hover {
+    border-color: #00ff9d;
+    transform: translateY(-4px);
+}
+
+.card-icon {
+    margin-bottom: 18px;
+    font-size: 32px;
+}
+
+.card h3 {
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: #8da198;
+    font-size: 14px;
+}
+
+/* HOW IT WORKS */
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 16px;
+}
+
+.step {
+    padding: 22px;
+    background: #080e12;
+    border: 1px solid #163d2e;
+    border-radius: 7px;
+}
+
+.step-number {
+    color: #00ff9d;
+    font-family: monospace;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.step h3 {
+    margin: 10px 0;
+}
+
+.step p {
+    color: #8da198;
+    font-size: 14px;
+}
+
+/* DOWNLOAD */
+
+.download-section {
+    background: linear-gradient(135deg,#06130e,#05080c);
+    border-top: 1px solid #143d2f;
+    border-bottom: 1px solid #143d2f;
+}
+
+.download-box {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    padding: 40px;
+    background: rgba(0,255,157,.035);
+    border: 1px solid #1b6047;
+    border-radius: 10px;
+}
+
+.download-icon {
+    min-width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #00ff9d;
+    color: #00ff9d;
+    font-size: 50px;
+}
+
+.download-content {
+    min-width: 0;
+}
+
+.download-label {
+    color: #00ff9d;
+    font-family: monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.download-content h2 {
+    margin-top: 5px;
+    font-size: clamp(30px,4vw,45px);
+}
+
+.download-content p {
+    margin-top: 10px;
+    color: #8ba198;
+}
+
+.download-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.download-main, .download-guide {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.download-main {
+    background: #00ff9d;
+    color: #001b10;
+}
+
+.download-guide {
+    border: 1px solid #00ff9d;
+    color: #00ff9d;
+}
+
+.download-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+    color: #789188;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+/* INSTALLATION */
+
+.install-box {
+    max-width: 850px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 16px;
+}
+
+.install-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 22px;
+    background: #080e12;
+    border: 1px solid #163d2e;
+    border-radius: 7px;
+}
+
+.step-badge {
+    min-width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #00ff9d;
+    color: #00ff9d;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.install-step h3 {
+    margin-bottom: 7px;
+}
+
+.install-step p {
+    color: #8da198;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.install-step code {
+    display: inline-block;
+    margin-top: 7px;
+    padding: 5px 8px;
+    background: #020405;
+    border: 1px solid #163d2e;
+    color: #00ff9d;
+    overflow-wrap: anywhere;
+}
+
+/* FOOTER */
+
+footer {
+    padding: 35px 0;
+    background: #030507;
+    border-top: 1px solid #163d2e;
+    text-align: center;
+}
+
+footer strong {
+    font-size: 21px;
+}
+
+footer strong span {
+    color: #00ff9d;
+}
+
+footer p {
+    margin-top: 5px;
+    color: #74887f;
+    font-size: 13px;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding: 10px 18px;
+    border: 1px solid #00ff9d;
+    border-radius: 5px;
+    color: #00ff9d;
+    font-size: 14px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.github-link:hover {
+    background: #00ff9d;
+    color: #001b10;
+    box-shadow: 0 0 20px rgba(0,255,157,.15);
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .shield-panel {
+        min-height: 280px;
+    }
+
+    .steps {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .cards {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 92%;
+    }
+
+    .navbar {
+        min-height: 62px;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .menu-button {
+        display: block;
+    }
+
+    nav {
+        position: absolute;
+        top: 62px;
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        padding: 8px 4%;
+        background: #05080c;
+        border-bottom: 1px solid #164a38;
+    }
+
+    nav.open {
+        display: flex;
+    }
+
+    nav a {
+        padding: 12px;
+        border-bottom: 1px solid #102b20;
+    }
+
+    .hero {
+        padding: 55px 0;
+    }
+
+    h1 {
+        font-size: clamp(38px,10vw,52px);
+        letter-spacing: -2px;
+    }
+
+    .hero-description {
+        font-size: 15px;
+    }
+
+    .shield-panel {
+        min-height: 250px;
+    }
+
+    .shield {
+        width: 125px;
+        height: 125px;
+        font-size: 55px;
+    }
+
+    section {
+        padding: 60px 0;
+    }
+
+    .section-title {
+        margin-bottom: 28px;
+    }
+
+    .scanner-box {
+        padding: 18px;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+
+    #urlInput, #checkButton {
+        width: 100%;
+        min-height: 48px;
+    }
+
+    .cards, .steps, .install-box {
+        grid-template-columns: 1fr;
+    }
+
+    .card, .step {
+        min-height: auto;
+        padding: 22px;
+    }
+
+    .download-box {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 25px 20px;
+        gap: 22px;
+    }
+
+    .download-icon {
+        min-width: 75px;
+        width: 75px;
+        height: 75px;
+        font-size: 38px;
+    }
+
+    .download-buttons {
+        flex-direction: column;
+    }
+
+    .download-main, .download-guide {
+        width: 100%;
+        text-align: center;
+    }
+
+    .download-info {
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .install-step {
+        padding: 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
     <div class="container navbar">
-        <a class="logo" href="#">🛡️ Check<span>YourURL</span></a>
+        <a href="#" class="logo">🛡️ Check<span>YourURL</span></a>
 
         <button
             class="menu-button"
@@ -678,462 +815,483 @@
         <nav id="navigation">
             <a href="#scanner">Kiểm tra</a>
             <a href="#features">Tính năng</a>
-            <a href="#how">Cách hoạt động</a>
-            <a href="#install">Hướng dẫn</a>
+            <a href="#how">Hoạt động</a>
+            <a href="#download">Tải xuống</a>
         </nav>
     </div>
 </header>
 
 <main>
 
-    <!-- HERO -->
+<section class="hero">
+    <div class="container hero-grid">
+        <div>
+            <div class="eyebrow">● SECURITY SYSTEM ONLINE</div>
 
-    <section class="hero">
-        <div class="container hero-grid">
+            <h1>
+                BẢO VỆ BẠN<br>
+                TRƯỚC KHI<br>
+                <span>BẠN CLICK.</span>
+            </h1>
 
-            <div>
-                <div class="eyebrow">● WEBSITE SECURITY SYSTEM</div>
+            <p class="hero-description">
+                Kiểm tra mức độ an toàn của website trước khi truy cập
+                bằng CheckYourURL.
+            </p>
 
-                <h1>
-                    KIỂM TRA<br>
-                    TRƯỚC KHI<br>
-                    <span>BẠN CLICK.</span>
-                </h1>
-
-                <p class="hero-description">
-                    CheckYourURL giúp bạn kiểm tra mức độ an toàn
-                    của website trước khi truy cập, sử dụng dữ liệu
-                    phân tích từ VirusTotal.
-                </p>
-
-                <a href="#scanner" class="primary-button">
-                    🔍 KIỂM TRA WEBSITE
-                </a>
-            </div>
-
-            <div class="shield-panel">
-                <div class="shield">🛡️</div>
-                <h2>CheckYourURL</h2>
-                <p>SCAN · DETECT · PROTECT</p>
-            </div>
-
+            <a href="#scanner" class="primary-button">
+                🔍 KIỂM TRA WEBSITE
+            </a>
         </div>
-    </section>
 
-    <!-- SCANNER -->
+        <div class="shield-panel">
+            <div class="shield">🛡️</div>
+            <h2>CheckYourURL</h2>
+            <p>SECURITY ANALYSIS</p>
+        </div>
+    </div>
+</section>
 
-    <section class="scanner-section" id="scanner">
-        <div class="container">
+<section class="scanner-section" id="scanner">
+    <div class="container">
+        <div class="section-title">
+            <span>// URL SCANNER</span>
+            <h2>KIỂM TRA WEBSITE</h2>
+            <p>Nhập URL hoặc tên miền bạn muốn kiểm tra.</p>
+        </div>
 
-            <div class="section-title">
-                <span>// URL SCANNER</span>
-                <h2>KIỂM TRA WEBSITE</h2>
-                <p>Nhập đường dẫn website bạn muốn kiểm tra.</p>
+        <div class="scanner-box">
+            <label class="scanner-label" for="urlInput">
+                Website cần kiểm tra
+            </label>
+
+            <div class="input-row">
+                <input
+                    id="urlInput"
+                    type="text"
+                    placeholder="https://example.com"
+                    autocomplete="url"
+                    autocapitalize="none"
+                    spellcheck="false"
+                >
+
+                <button id="checkButton" type="button">
+                    🔍 Kiểm tra
+                </button>
             </div>
 
-            <div class="scanner-box">
+            <p class="hint">
+                Ví dụ: google.com hoặc
+                <a href="https://google.com"
+                   target="_blank"
+                   rel="noopener noreferrer">https://google.com</a>
+            </p>
 
-                <label class="scanner-label" for="urlInput">
-                    URL hoặc tên miền
-                </label>
+            <div id="loading" class="loading hidden" role="status">
+                <div class="spinner"></div>
+                <strong>ĐANG PHÂN TÍCH...</strong>
+                <p>Đang kết nối CheckYourURL Backend.</p>
+            </div>
 
-                <div class="input-row">
-                    <input
-                        id="urlInput"
-                        type="text"
-                        placeholder="https://example.com"
-                        autocomplete="url"
-                        autocapitalize="none"
-                        spellcheck="false"
-                    >
+            <div id="result" class="result hidden" aria-live="polite">
+                <h3 id="resultTitle">Kết quả</h3>
+                <p id="resultDomain" class="result-domain"></p>
 
-                    <button id="checkButton" type="button">
-                        🔍 Kiểm tra
-                    </button>
+                <div class="count">
+                    <strong id="maliciousCount">0</strong>
+                    <span> engine phát hiện nguy hiểm</span>
                 </div>
 
-                <p class="hint">
-                    Ví dụ: google.com hoặc https://example.com
-                </p>
+                <p id="resultMessage" class="result-message"></p>
+            </div>
 
-                <div id="loading" class="loading hidden" role="status">
-                    <div class="spinner"></div>
-                    <strong>ĐANG PHÂN TÍCH...</strong>
-                    <p>Đang kết nối với CheckYourURL Backend.</p>
-                </div>
+            <div id="error" class="error hidden" role="alert"></div>
+        </div>
+    </div>
+</section>
 
-                <div id="result" class="result hidden" aria-live="polite">
-                    <h3 id="resultTitle">Kết quả kiểm tra</h3>
-                    <p id="resultDomain" class="result-domain"></p>
+<section id="features">
+    <div class="container">
+        <div class="section-title">
+            <span>// FEATURES</span>
+            <h2>TÍNH NĂNG</h2>
+        </div>
 
-                    <div class="count">
-                        <strong id="maliciousCount">0</strong>
-                        <span>engine phát hiện nguy hiểm</span>
-                    </div>
+        <div class="cards">
+            <div class="card">
+                <div class="card-icon">🔎</div>
+                <h3>Kiểm tra URL</h3>
+                <p>Phân tích tên miền trước khi bạn truy cập website.</p>
+            </div>
 
-                    <p id="resultMessage" class="result-message"></p>
-                </div>
+            <div class="card">
+                <div class="card-icon">🦠</div>
+                <h3>VirusTotal</h3>
+                <p>Sử dụng kết quả phân tích từ VirusTotal thông qua backend.</p>
+            </div>
 
-                <div id="error" class="error hidden" role="alert"></div>
-
+            <div class="card">
+                <div class="card-icon">⚠️</div>
+                <h3>Cảnh báo rủi ro</h3>
+                <p>Hiển thị cảnh báo khi nhiều engine đánh dấu website nguy hiểm.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- FEATURES -->
+<section class="how-section" id="how">
+    <div class="container">
+        <div class="section-title">
+            <span>// HOW IT WORKS</span>
+            <h2>CÁCH HOẠT ĐỘNG</h2>
+        </div>
 
-    <section id="features">
-        <div class="container">
-
-            <div class="section-title">
-                <span>// FEATURES</span>
-                <h2>TÍNH NĂNG</h2>
-                <p>Các chức năng chính của CheckYourURL.</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">01</div>
+                <h3>Nhập URL</h3>
+                <p>Nhập website bạn muốn kiểm tra.</p>
             </div>
 
-            <div class="cards">
+            <div class="step">
+                <div class="step-number">02</div>
+                <h3>Gửi Backend</h3>
+                <p>Gửi tên miền đến hệ thống xử lý.</p>
+            </div>
 
-                <article class="card">
-                    <div class="card-icon">🔎</div>
-                    <h3>Kiểm tra URL</h3>
-                    <p>
-                        Nhập tên miền để xem kết quả phân tích
-                        trước khi quyết định truy cập.
-                    </p>
-                </article>
+            <div class="step">
+                <div class="step-number">03</div>
+                <h3>VirusTotal</h3>
+                <p>Backend truy vấn kết quả phân tích.</p>
+            </div>
 
-                <article class="card">
-                    <div class="card-icon">🦠</div>
-                    <h3>VirusTotal</h3>
-                    <p>
-                        Lấy số lượng engine đánh dấu nguy hiểm
-                        từ backend tích hợp VirusTotal.
-                    </p>
-                </article>
-
-                <article class="card">
-                    <div class="card-icon">⚠️</div>
-                    <h3>Cảnh báo rủi ro</h3>
-                    <p>
-                        Hiển thị cảnh báo khi số engine phát hiện
-                        nguy hiểm đạt ngưỡng đã thiết lập.
-                    </p>
-                </article>
-
+            <div class="step">
+                <div class="step-number">04</div>
+                <h3>Kết quả</h3>
+                <p>Hiển thị số engine đánh dấu nguy hiểm.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- HOW IT WORKS -->
+<section class="download-section" id="download">
+    <div class="container">
+        <div class="download-box">
+            <div class="download-icon">⬇</div>
 
-    <section class="how-section" id="how">
-        <div class="container">
+            <div class="download-content">
+                <div class="download-label">// DOWNLOAD CHECKYOURURL</div>
+                <h2>TẢI CHECKYOURURL</h2>
 
-            <div class="section-title">
-                <span>// HOW IT WORKS</span>
-                <h2>CÁCH HOẠT ĐỘNG</h2>
-            </div>
-
-            <div class="steps">
-
-                <article class="step">
-                    <div class="step-number">01</div>
-                    <h3>Nhập URL</h3>
-                    <p>Nhập website muốn kiểm tra.</p>
-                </article>
-
-                <article class="step">
-                    <div class="step-number">02</div>
-                    <h3>Gửi yêu cầu</h3>
-                    <p>Website gửi tên miền đến backend.</p>
-                </article>
-
-                <article class="step">
-                    <div class="step-number">03</div>
-                    <h3>Phân tích</h3>
-                    <p>Backend truy vấn dữ liệu VirusTotal.</p>
-                </article>
-
-                <article class="step">
-                    <div class="step-number">04</div>
-                    <h3>Hiển thị kết quả</h3>
-                    <p>Người dùng xem kết quả và cân nhắc rủi ro.</p>
-                </article>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- INSTALLATION -->
-
-    <section id="install">
-        <div class="container">
-
-            <div class="section-title">
-                <span>// ABOUT</span>
-                <h2>VỀ CHECKYOURURL</h2>
-            </div>
-
-            <div class="install-box">
                 <p>
-                    CheckYourURL là dự án hỗ trợ người dùng nhận biết
-                    rủi ro khi truy cập website.
+                    Tìm hiểu và tải tiện ích kiểm tra website
+                    dành cho trình duyệt máy tính.
                 </p>
 
-                <p>
-                    Kết quả tự động không thể bảo đảm một website
-                    an toàn tuyệt đối. Số engine phát hiện có thể thay
-                    đổi theo thời gian và nguồn dữ liệu.
-                </p>
+                <div class="download-buttons">
+                    <a
+                        href="https://github.com/Cuongnefk121/CyberGuard"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="download-main"
+                    >⬇ TẢI TIỆN ÍCH</a>
 
-                <p>
-                    <a href="https://www.virustotal.com/" target="_blank"
-                       rel="noopener noreferrer">
-                        Tìm hiểu về VirusTotal ↗
+                    <a href="#install" class="download-guide">
+                        📖 Hướng dẫn cài đặt
                     </a>
-                </p>
+                </div>
+
+                <div class="download-info">
+                    <span>✓ Chrome</span>
+                    <span>✓ Microsoft Edge</span>
+                    <span>✓ Windows</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="install">
+    <div class="container">
+        <div class="section-title">
+            <span>// INSTALLATION</span>
+            <h2>HƯỚNG DẪN CÀI ĐẶT</h2>
+            <p>Cài đặt tiện ích trên máy tính.</p>
+        </div>
+
+        <div class="install-box">
+            <div class="install-step">
+                <div class="step-badge">01</div>
+                <div>
+                    <h3>Tải tiện ích</h3>
+                    <p>Mở repository GitHub của dự án.</p>
+                </div>
             </div>
 
+            <div class="install-step">
+                <div class="step-badge">02</div>
+                <div>
+                    <h3>Mở thư mục Extension</h3>
+                    <p>Đi đến thư mục:</p>
+                    <code>CyberGuard/Extension</code>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-badge">03</div>
+                <div>
+                    <h3>Mở trang Extensions</h3>
+                    <p>Chrome:</p>
+                    <code>chrome://extensions</code>
+                    <p>Edge:</p>
+                    <code>edge://extensions</code>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-badge">04</div>
+                <div>
+                    <h3>Bật Developer mode</h3>
+                    <p>Bật chế độ nhà phát triển trên trình duyệt.</p>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-badge">05</div>
+                <div>
+                    <h3>Load unpacked</h3>
+                    <p>Chọn thư mục:</p>
+                    <code>CyberGuard/Extension</code>
+                </div>
+            </div>
+
+            <div class="install-step">
+                <div class="step-badge">06</div>
+                <div>
+                    <h3>Hoàn tất</h3>
+                    <p>Tiện ích đã sẵn sàng để sử dụng.</p>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
 </main>
 
 <footer>
     <div class="container">
-        <strong>🛡️ Check<span style="color:#00ff9d">YourURL</span></strong>
+        <strong>🛡️ Check<span>YourURL</span></strong>
         <p>Scan. Detect. Protect.</p>
         <p>© 2026 CheckYourURL</p>
+
+        <a
+            class="github-link"
+            href="https://github.com/Cuongnefk121"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Mở trang cá nhân GitHub của Cuongnefk121"
+        >
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+            >
+                <path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.54v-2.1c-3.1.68-3.76-1.32-3.76-1.32-.5-1.3-1.24-1.65-1.24-1.65-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 1.72 2.62 1.22 3.26.93.1-.72.39-1.22.71-1.5-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.21 1.15-2.99-.12-.28-.5-1.42.11-2.95 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.11-1.44 3.05-1.14 3.05-1.14.61 1.53.23 2.67.11 2.95.72.78 1.15 1.77 1.15 2.99 0 4.29-2.61 5.23-5.1 5.51.4.35.75 1.02.75 2.06v3.12c0 .3.2.65.76.54A11.1 11.1 0 0 0 12 .9Z"/>
+            </svg>
+            GitHub ↗
+        </a>
     </div>
 </footer>
 
 <script>
-    /*
-        BACKEND
-        Giữ nguyên backend Render hiện tại của bạn.
-    */
+const BACKEND =
+    "https://cyberguard-jx83.onrender.com/scan?domain=";
 
-    const BACKEND =
-        "https://cyberguard-jx83.onrender.com/scan?domain=";
+const urlInput = document.getElementById("urlInput");
+const checkButton = document.getElementById("checkButton");
+const loading = document.getElementById("loading");
+const result = document.getElementById("result");
+const errorBox = document.getElementById("error");
 
-    const urlInput =
-        document.getElementById("urlInput");
+const resultTitle = document.getElementById("resultTitle");
+const resultDomain = document.getElementById("resultDomain");
+const maliciousCount = document.getElementById("maliciousCount");
+const resultMessage = document.getElementById("resultMessage");
 
-    const checkButton =
-        document.getElementById("checkButton");
+/* MOBILE MENU */
 
-    const loading =
-        document.getElementById("loading");
+const menuButton = document.getElementById("menuButton");
+const navigation = document.getElementById("navigation");
 
-    const result =
-        document.getElementById("result");
+menuButton.addEventListener("click", function () {
+    const opened = navigation.classList.toggle("open");
 
-    const errorBox =
-        document.getElementById("error");
+    menuButton.setAttribute("aria-expanded", String(opened));
+    menuButton.innerText = opened ? "✕" : "☰";
+});
 
-    const resultTitle =
-        document.getElementById("resultTitle");
+navigation.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+        navigation.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.innerText = "☰";
+    });
+});
 
-    const resultDomain =
-        document.getElementById("resultDomain");
+/* GET DOMAIN */
 
-    const maliciousCount =
-        document.getElementById("maliciousCount");
+function getDomain(value) {
+    value = value.trim();
 
-    const resultMessage =
-        document.getElementById("resultMessage");
+    if (!value) {
+        return "";
+    }
 
+    try {
+        if (
+            !value.startsWith("http://") &&
+            !value.startsWith("https://")
+        ) {
+            value = "https://" + value;
+        }
 
-    /* MOBILE MENU */
+        const parsed = new URL(value);
 
-    const menuButton =
-        document.getElementById("menuButton");
+        if (
+            parsed.protocol !== "http:" &&
+            parsed.protocol !== "https:"
+        ) {
+            return "";
+        }
 
-    const navigation =
-        document.getElementById("navigation");
+        const domain = parsed.hostname;
 
-    menuButton.addEventListener("click", function () {
-        const isOpen =
-            navigation.classList.toggle("open");
+        if (
+            !domain ||
+            !domain.includes(".") ||
+            domain.includes(" ")
+        ) {
+            return "";
+        }
 
-        menuButton.setAttribute(
-            "aria-expanded",
-            String(isOpen)
+        return domain.replace(/^www\./i, "");
+    }
+    catch (e) {
+        return "";
+    }
+}
+
+/* LOADING */
+
+function startLoading() {
+    loading.classList.remove("hidden");
+    result.classList.add("hidden");
+    errorBox.classList.add("hidden");
+
+    checkButton.disabled = true;
+    checkButton.innerText = "Đang kiểm tra...";
+}
+
+function stopLoading() {
+    loading.classList.add("hidden");
+
+    checkButton.disabled = false;
+    checkButton.innerText = "🔍 Kiểm tra";
+}
+
+/* ERROR */
+
+function showError(message) {
+    stopLoading();
+
+    errorBox.innerText = "❌ " + message;
+    errorBox.classList.remove("hidden");
+}
+
+/* RESULT */
+
+function showResult(domain, malicious) {
+    stopLoading();
+
+    result.classList.remove("hidden", "danger", "safe");
+    resultDomain.innerText = domain;
+    maliciousCount.innerText = malicious;
+
+    if (malicious >= 3) {
+        result.classList.add("danger");
+        resultTitle.innerText = "⚠️ WEBSITE CÓ NGUY CƠ";
+
+        resultMessage.innerText =
+            "VirusTotal ghi nhận " + malicious +
+            " engine đánh dấu tên miền này là nguy hiểm. " +
+            "Hãy thận trọng trước khi truy cập.";
+    }
+    else {
+        result.classList.add("safe");
+        resultTitle.innerText =
+            "CHƯA PHÁT HIỆN NHIỀU DẤU HIỆU NGUY HIỂM";
+
+        resultMessage.innerText =
+            "VirusTotal hiện ghi nhận " + malicious +
+            " engine đánh dấu nguy hiểm. Kết quả này không " +
+            "bảo đảm website an toàn tuyệt đối.";
+    }
+}
+
+/* CHECK WEBSITE */
+
+async function checkWebsite() {
+    const domain = getDomain(urlInput.value);
+
+    if (!domain) {
+        showError(
+            "URL không hợp lệ. Hãy nhập ví dụ google.com."
+        );
+        return;
+    }
+
+    startLoading();
+
+    try {
+        const response = await fetch(
+            BACKEND + encodeURIComponent(domain)
         );
 
-        menuButton.innerText =
-            isOpen ? "✕" : "☰";
-    });
-
-    navigation.querySelectorAll("a").forEach(function (link) {
-        link.addEventListener("click", function () {
-            navigation.classList.remove("open");
-            menuButton.setAttribute("aria-expanded", "false");
-            menuButton.innerText = "☰";
-        });
-    });
-
-
-    /* GET DOMAIN */
-
-    function getDomain(value) {
-        value = value.trim();
-
-        if (!value) {
-            return "";
+        if (!response.ok) {
+            throw new Error("HTTP " + response.status);
         }
 
-        try {
-            if (
-                !value.startsWith("http://") &&
-                !value.startsWith("https://")
-            ) {
-                value = "https://" + value;
-            }
+        const data = await response.json();
+        const malicious = Number(data.malicious);
 
-            const parsed = new URL(value);
-
-            if (
-                parsed.protocol !== "http:" &&
-                parsed.protocol !== "https:"
-            ) {
-                return "";
-            }
-
-            const hostname = parsed.hostname;
-
-            if (
-                !hostname ||
-                !hostname.includes(".") ||
-                hostname.includes(" ")
-            ) {
-                return "";
-            }
-
-            return hostname.replace(/^www\./i, "");
+        if (
+            !Number.isFinite(malicious) ||
+            malicious < 0
+        ) {
+            throw new Error("Dữ liệu trả về không hợp lệ.");
         }
-        catch (e) {
-            return "";
-        }
+
+        showResult(domain, malicious);
     }
+    catch (error) {
+        console.error("CheckYourURL ERROR:", error);
 
-
-    /* DISPLAY STATES */
-
-    function startLoading() {
-        loading.classList.remove("hidden");
-        result.classList.add("hidden");
-        errorBox.classList.add("hidden");
-        checkButton.disabled = true;
-        checkButton.innerText = "Đang kiểm tra...";
+        showError(
+            "Không thể kết nối Backend. Hãy thử lại sau."
+        );
     }
+}
 
-    function stopLoading() {
-        loading.classList.add("hidden");
-        checkButton.disabled = false;
-        checkButton.innerText = "🔍 Kiểm tra";
+checkButton.addEventListener("click", checkWebsite);
+
+urlInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        checkWebsite();
     }
-
-    function showError(message) {
-        stopLoading();
-
-        errorBox.innerText = "❌ " + message;
-        errorBox.classList.remove("hidden");
-    }
-
-    function showResult(domain, malicious) {
-        stopLoading();
-
-        result.classList.remove("hidden", "danger", "safe");
-
-        resultDomain.innerText = domain;
-        maliciousCount.innerText = malicious;
-
-        if (malicious >= 3) {
-            result.classList.add("danger");
-
-            resultTitle.innerText =
-                "⚠️ WEBSITE CÓ NGUY CƠ";
-
-            resultMessage.innerText =
-                "VirusTotal ghi nhận " + malicious +
-                " engine đánh dấu tên miền này là nguy hiểm. " +
-                "Hãy thận trọng và kiểm tra thêm thông tin.";
-        }
-        else {
-            result.classList.add("safe");
-
-            resultTitle.innerText =
-                "CHƯA PHÁT HIỆN NHIỀU DẤU HIỆU NGUY HIỂM";
-
-            resultMessage.innerText =
-                "VirusTotal hiện ghi nhận " + malicious +
-                " engine đánh dấu nguy hiểm. Kết quả này không " +
-                "bảo đảm website an toàn tuyệt đối.";
-        }
-    }
-
-
-    /* SCAN WEBSITE */
-
-    async function checkWebsite() {
-        const domain =
-            getDomain(urlInput.value);
-
-        if (!domain) {
-            showError("URL không hợp lệ. Hãy nhập tên miền, ví dụ google.com.");
-            return;
-        }
-
-        startLoading();
-
-        try {
-            const response = await fetch(
-                BACKEND + encodeURIComponent(domain)
-            );
-
-            if (!response.ok) {
-                throw new Error("HTTP " + response.status);
-            }
-
-            const data = await response.json();
-
-            const malicious =
-                Number(data.malicious);
-
-            if (
-                !Number.isFinite(malicious) ||
-                malicious < 0
-            ) {
-                throw new Error("Dữ liệu trả về không hợp lệ.");
-            }
-
-            showResult(domain, malicious);
-        }
-        catch (error) {
-            console.error("CheckYourURL error:", error);
-
-            showError(
-                "Không thể kết nối backend. Hãy thử lại sau."
-            );
-        }
-    }
-
-    checkButton.addEventListener(
-        "click",
-        checkWebsite
-    );
-
-    urlInput.addEventListener(
-        "keydown",
-        function (event) {
-            if (event.key === "Enter") {
-                checkWebsite();
-            }
-        }
-    );
+});
 </script>
 
 </body>
 </html>
-```
