@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#05080c">
-<meta name="description" content="CheckYourURL - Kiểm tra mức độ an toàn của website.">
-<title>CheckYourURL - Website Security</title>
+<meta name="description" content="CheckYourURL giúp kiểm tra tên miền bằng dữ liệu VirusTotal. Khám phá CyberGuard, tiện ích cảnh báo website đáng ngờ.">
+<title>CheckYourURL | Kiểm tra website & CyberGuard</title>
 
 <style>
 * {
@@ -796,6 +796,54 @@ footer p {
         transition-duration: .01ms !important;
     }
 }
+
+/* PRODUCT PREVIEW & TRUST */
+.product-preview{position:relative;overflow:hidden;min-height:390px;padding:0;background:radial-gradient(circle at 50% 45%,rgba(0,255,157,.12),transparent 62%),#07110d}
+.preview-top{width:100%;display:flex;align-items:center;gap:6px;padding:14px 17px;border-bottom:1px solid #173c2d;background:rgba(2,8,5,.75)}
+.preview-dot{width:7px;height:7px;border-radius:50%;background:#416b57}
+.preview-address{margin-left:12px;padding:4px 12px;flex:1;border:1px solid #1a4934;border-radius:4px;color:#78968a;font:11px monospace}
+.preview-content{display:flex;flex-direction:column;align-items:center;text-align:center;padding:35px 18px 28px}
+.preview-shield{width:86px;height:86px;display:grid;place-items:center;border:1px solid #00ff9d;border-radius:24px;font-size:42px;box-shadow:0 0 38px rgba(0,255,157,.16);transform:rotate(-4deg)}
+.preview-kicker,.product-label{margin-top:20px;color:#00ff9d;font:11px monospace;letter-spacing:2px}
+.preview-content h2{margin-top:7px;font-size:24px}
+.preview-content p{color:#8da79a;font-size:13px}
+.preview-status{display:flex;align-items:center;gap:8px;margin-top:19px;padding:8px 13px;border:1px solid #1d6043;border-radius:30px;color:#9be8c4;font:10px monospace;letter-spacing:1px}
+.preview-status span{width:7px;height:7px;border-radius:50%;background:#00ff9d;box-shadow:0 0 10px #00ff9d}
+.preview-footer{width:100%;display:flex;justify-content:space-between;gap:10px;padding:12px 17px;border-top:1px solid #173c2d;color:#668274;font:9px monospace;letter-spacing:1px}
+.scanner-disclaimer{margin-top:16px;color:#748c80;font-size:12px}
+.product-section{overflow:hidden;background:linear-gradient(120deg,#06110c,#05080c 70%);border-top:1px solid #102b20;border-bottom:1px solid #102b20}
+.product-grid{display:grid;grid-template-columns:1fr 1.1fr;align-items:center;gap:65px}
+.product-art{position:relative;min-height:310px;display:grid;place-items:center}
+.product-window{position:relative;z-index:2;width:min(100%,360px);overflow:hidden;border:1px solid #246044;border-radius:12px;background:#080e12;box-shadow:0 25px 80px rgba(0,0,0,.4),0 0 50px rgba(0,255,157,.08);transform:rotate(-3deg)}
+.product-window-bar{display:flex;gap:6px;padding:13px;border-bottom:1px solid #163d2e}
+.product-window-bar span{width:8px;height:8px;border-radius:50%;background:#456b58}
+.product-window-body{padding:25px}
+.product-mark{width:58px;height:58px;display:grid;place-items:center;border:1px solid #00ff9d;border-radius:14px;font-size:28px}
+.product-lines{display:grid;gap:8px;margin:22px 0}
+.product-lines i{display:block;height:7px;border-radius:8px;background:#17382a}
+.product-lines i:nth-child(2){width:75%}.product-lines i:nth-child(3){width:48%}
+.product-alert{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #74402d;border-radius:7px;background:#1a100c;color:#f2b18c;font-size:12px}
+.product-alert b{width:25px;height:25px;display:grid;place-items:center;border:1px solid #e58a57;border-radius:50%}
+.product-orbit{position:absolute;width:270px;height:270px;border:1px solid rgba(0,255,157,.14);border-radius:50%}
+.orbit-two{width:340px;height:340px;border-style:dashed}
+.product-copy .product-label{display:inline-block;margin:0}
+.product-copy h2{margin-top:15px;font-size:clamp(28px,4vw,43px);line-height:1.18}
+.product-copy h2 span{color:#00ff9d}
+.product-copy p{margin-top:18px;color:#8da198}
+.product-copy strong{color:#eafff6}
+.product-link{display:inline-flex;align-items:center;gap:12px;margin-top:24px;color:#00ff9d;font-weight:bold}
+.product-link span{transition:transform .2s}.product-link:hover span{transform:translate(3px,-3px)}
+.faq-section{background:#070c10;border-top:1px solid #102b20}
+.faq-list{max-width:850px;margin:auto;display:grid;gap:12px}
+.faq-item{padding:20px 22px;border:1px solid #173d2d;border-radius:7px;background:#080e12}
+.faq-item summary{color:#eafff6;font-weight:bold;cursor:pointer;list-style:none}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:after{content:'+';float:right;color:#00ff9d;font-size:20px}
+.faq-item[open] summary:after{content:'−'}
+.faq-item p{margin-top:13px;padding-right:22px;color:#8da198;font-size:14px}
+@media(max-width:850px){.product-grid{grid-template-columns:1fr;gap:25px}.product-art{min-height:280px}.product-copy{text-align:center}}
+@media(max-width:600px){.product-preview{min-height:340px}.preview-content{padding:25px 14px}.preview-footer{font-size:8px}.product-art{min-height:250px}.product-orbit{width:220px;height:220px}.orbit-two{width:280px;height:280px}.faq-item{padding:17px}}
+
 </style>
 </head>
 
@@ -816,7 +864,9 @@ footer p {
             <a href="#scanner">Kiểm tra</a>
             <a href="#features">Tính năng</a>
             <a href="#how">Hoạt động</a>
+            <a href="#cyberguard">CyberGuard</a>
             <a href="#download">Tải xuống</a>
+            <a href="#faq">FAQ</a>
         </nav>
     </div>
 </header>
@@ -844,10 +894,16 @@ footer p {
             </a>
         </div>
 
-        <div class="shield-panel">
-            <div class="shield">🛡️</div>
-            <h2>CheckYourURL</h2>
-            <p>SECURITY ANALYSIS</p>
+        <div class="shield-panel product-preview">
+            <div class="preview-top"><span class="preview-dot"></span><span class="preview-dot"></span><span class="preview-dot"></span><span class="preview-address">checkyoururl.netlify.app</span></div>
+            <div class="preview-content">
+                <div class="preview-shield">🛡️</div>
+                <div class="preview-kicker">CYBERGUARD SECURITY</div>
+                <h2>Think before you click.</h2>
+                <p>Kiểm tra trước. Truy cập an tâm hơn.</p>
+                <div class="preview-status"><span></span> URL ANALYSIS READY</div>
+            </div>
+            <div class="preview-footer"><span>CHECKYOURURL</span><span>● PROTECTED BY DESIGN</span></div>
         </div>
     </div>
 </section>
@@ -886,6 +942,7 @@ footer p {
                    target="_blank"
                    rel="noopener noreferrer">https://google.com</a>
             </p>
+            <p class="scanner-disclaimer">Kết quả được lấy từ dữ liệu VirusTotal qua máy chủ CheckYourURL. Không có kết quả quét nào bảo đảm website an toàn tuyệt đối.</p>
 
             <div id="loading" class="loading hidden" role="status">
                 <div class="spinner"></div>
@@ -974,19 +1031,39 @@ footer p {
     </div>
 </section>
 
+<section class="product-section" id="cyberguard">
+    <div class="container product-grid">
+        <div class="product-art" aria-hidden="true">
+            <div class="product-window">
+                <div class="product-window-bar"><span></span><span></span><span></span></div>
+                <div class="product-window-body">
+                    <div class="product-mark">🛡️</div>
+                    <div class="product-lines"><i></i><i></i><i></i></div>
+                    <div class="product-alert"><b>!</b><span>Suspicious website detected</span></div>
+                </div>
+            </div>
+            <div class="product-orbit orbit-one"></div>
+            <div class="product-orbit orbit-two"></div>
+        </div>
+        <div class="product-copy">
+            <span class="product-label">// MEET CYBERGUARD</span>
+            <h2>Không chỉ kiểm tra.<br><span>Còn cảnh báo khi bạn duyệt web.</span></h2>
+            <p>CheckYourURL là nơi bạn chủ động kiểm tra một tên miền. <strong>CyberGuard</strong> là tiện ích trình duyệt của dự án, giúp kiểm tra và hiển thị cảnh báo khi phát hiện website có dấu hiệu rủi ro.</p>
+            <a class="product-link" href="#download">Khám phá tiện ích CyberGuard <span>↗</span></a>
+        </div>
+    </div>
+</section>
+
 <section class="download-section" id="download">
     <div class="container">
         <div class="download-box">
             <div class="download-icon">⬇</div>
 
             <div class="download-content">
-                <div class="download-label">// DOWNLOAD CHECKYOURURL</div>
-                <h2>TẢI CHECKYOURURL</h2>
+                <div class="download-label">// BROWSER PROTECTION EXTENSION</div>
+                <h2>TẢI CYBERGUARD</h2>
 
-                <p>
-                    Tìm hiểu và tải tiện ích kiểm tra website
-                    dành cho trình duyệt máy tính.
-                </p>
+                <p>Cài đặt tiện ích CyberGuard cho Chrome hoặc Microsoft Edge để nhận cảnh báo khi truy cập website có dấu hiệu nguy hiểm. Mã nguồn và hướng dẫn đều được công khai trên GitHub.</p>
 
                 <div class="download-buttons">
                     <a
@@ -1072,6 +1149,34 @@ footer p {
                     <p>Tiện ích đã sẵn sàng để sử dụng.</p>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section" id="faq">
+    <div class="container">
+        <div class="section-title">
+            <span>// FAQ & TRANSPARENCY</span>
+            <h2>NHỮNG ĐIỀU BẠN NÊN BIẾT</h2>
+            <p>Thông tin rõ ràng để bạn hiểu kết quả kiểm tra.</p>
+        </div>
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>CheckYourURL kiểm tra website như thế nào?</summary>
+                <p>Bạn nhập tên miền, CheckYourURL gửi yêu cầu đến backend. Backend lấy dữ liệu phân tích từ VirusTotal và trả số engine đánh dấu nguy hiểm để hiển thị.</p>
+            </details>
+            <details class="faq-item">
+                <summary>0 engine phát hiện có nghĩa website chắc chắn an toàn?</summary>
+                <p>Không. Điều đó chỉ có nghĩa là tại thời điểm kiểm tra, dữ liệu trả về chưa ghi nhận engine nào đánh dấu nguy hiểm. Website mới hoặc mối đe dọa chưa được nhận diện vẫn có thể gây rủi ro.</p>
+            </details>
+            <details class="faq-item">
+                <summary>CheckYourURL và CyberGuard khác nhau thế nào?</summary>
+                <p>CheckYourURL là trang web để bạn chủ động nhập tên miền và kiểm tra. CyberGuard là tiện ích trình duyệt của dự án, hỗ trợ cảnh báo trong quá trình duyệt web.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Thông tin nào được gửi khi tôi kiểm tra?</summary>
+                <p>Tên miền bạn nhập được gửi đến backend để thực hiện truy vấn. Hãy tránh nhập URL chứa thông tin riêng tư hoặc mã truy cập.</p>
+            </details>
         </div>
     </div>
 </section>
